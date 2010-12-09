@@ -37,7 +37,7 @@ register_plugin;
 __END__
 =head1 NAME
 
-Dancer::Plugin::MobileDevice - make a dancr app mobile-aware
+Dancer::Plugin::MobileDevice - make a Dancer app mobile-aware
 
 =head1 SYNOPSIS
 
@@ -53,6 +53,12 @@ Dancer::Plugin::MobileDevice - make a dancr app mobile-aware
             # do something for regular agents
         }
     };
+
+=head1 DESCRIPTION
+
+A plugin for L<Dancer>-powered webapps to easily detect mobile clients and offer
+a simplified layout, and/or act in different ways.
+
 
 =head1 AUTHOR
 
@@ -95,7 +101,7 @@ L<http://search.cpan.org/dist/Dancer-Plugin-MobileDevice/>
 
 =head1 ACKNOWLEDGEMENTS
 
-This plugin was initially written for an artilce of the Dancer advent calendar
+This plugin was initially written for an article of the Dancer advent calendar
 2010.
 
 =head1 LICENSE AND COPYRIGHT

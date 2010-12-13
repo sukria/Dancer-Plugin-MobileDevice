@@ -1,55 +1,83 @@
-Dancer-Plugin-MobileDevice
+Dancer::Plugin::MobileDevice README
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
+SYNOPSIS
+        package MyWebApp;
+        use Dancer;
+        use Dancer::Plugin::MobileDevice;
 
-A README file is required for CPAN modules since CPAN extracts the README
-file from a module distribution so that people browsing the archive
-can use it to get an idea of the module's uses. It is usually a good idea
-to provide version information here so that people can decide whether
-fixes for the module are worth downloading.
+        get '/' => sub {
+            if (is_mobile_device) {
+                # do something for mobile
+            }
+            else {
+                # do something for regular agents
+            }
+        };
 
+DESCRIPTION
+    A plugin for Dancer-powered webapps to easily detect mobile clients and
+    offer a simplified layout, and/or act in different ways.
 
-INSTALLATION
+    The plugin offers a `is_mobile_device' keyword, which returns true if
+    the device is recognised as a mobile device.
 
-To install this module, run the following commands:
+    It can also automatically change the layout used to render views for
+    mobile clients.
 
-	perl Makefile.PL
-	make
-	make test
-	make install
+Custom layout for mobile devices
+    This plugin can use a custom layout for recognised mobile devices,
+    allowing you to present a simplified page template for mobile devices.
+    To enable this, use the `mobile_layout' setting for this plugin - for
+    instance, add the following to your config file:
 
-SUPPORT AND DOCUMENTATION
+      plugins:
+        mobiledevice:
+          mobile_layout: 'mobile'
 
-After installing, you can find documentation for this module with the
-perldoc command.
+    This means that, when `template' is called to render a view, if the
+    client is recognised as a mobile device, the layout named `mobile' will
+    be used, rather than whatever the current `layout' setting is.
 
-    perldoc Dancer::Plugin::MobileDevice
+    You can of course still override this layout by supplying a layout
+    option to the `template' call in the usual way (see the Dancer
+    documentation for how to do this).
 
-You can also look for information at:
+AUTHOR
+    Alexis Sukrieh, `<sukria at sukria.net>'
 
-    RT, CPAN's request tracker
+BUGS
+    Please report any bugs or feature requests to
+    http://github.com/sukria/Dancer-Plugin-MobileDevice/issues
+
+SUPPORT
+    You can find documentation for this module with the perldoc command.
+
+        perldoc Dancer::Plugin::MobileDevice
+
+    You can also look for information at:
+
+    * RT: CPAN's request tracker
         http://rt.cpan.org/NoAuth/Bugs.html?Dist=Dancer-Plugin-MobileDevice
 
-    AnnoCPAN, Annotated CPAN documentation
+    * AnnoCPAN: Annotated CPAN documentation
         http://annocpan.org/dist/Dancer-Plugin-MobileDevice
 
-    CPAN Ratings
+    * CPAN Ratings
         http://cpanratings.perl.org/d/Dancer-Plugin-MobileDevice
 
-    Search CPAN
+    * Search CPAN
         http://search.cpan.org/dist/Dancer-Plugin-MobileDevice/
 
+ACKNOWLEDGEMENTS
+    This plugin was initially written for an article of the Dancer advent
+    calendar 2010.
 
 LICENSE AND COPYRIGHT
+    Copyright 2010 Alexis Sukrieh.
 
-Copyright (C) 2010 Alexis Sukrieh
+    This program is free software; you can redistribute it and/or modify it
+    under the terms of either: the GNU General Public License as published
+    by the Free Software Foundation; or the Artistic License.
 
-This program is free software; you can redistribute it and/or modify it
-under the terms of either: the GNU General Public License as published
-by the Free Software Foundation; or the Artistic License.
-
-See http://dev.perl.org/licenses/ for more information.
+    See http://dev.perl.org/licenses/ for more information.
 

@@ -1,0 +1,8 @@
+\.bak
+\.SKIP
+\.git
+blib
+pm_to_blib
+cover_db
+\.old
+^Makefile$

@@ -7,9 +7,12 @@ plan tests => 5;
 
 {
     use Dancer;
+    use File::Spec;
     use Dancer::Plugin::MobileDevice;
     setting show_errors => 1;
 
+    set views => File::Spec->catfile('t', 'views');
+    
     get '/' => sub {
         template 'index';
     };

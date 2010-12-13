@@ -2,7 +2,7 @@ package Dancer::Plugin::MobileDevice;
 
 use strict;
 use warnings;
-our $VERSION = '0.01';
+our $VERSION = '0.02';
     
 use Dancer ':syntax';
 use Dancer::Plugin;

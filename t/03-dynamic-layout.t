@@ -3,7 +3,7 @@ use warnings;
 
 use Test::More import => ['!pass'];
 
-plan tests => 5;
+plan tests => 7;
 
 {
     use Dancer;
@@ -20,7 +20,22 @@ plan tests => 5;
 
 use Dancer::Test;
 
+# expose a bug
+set layout => 'main';
 
+$ENV{HTTP_USER_AGENT} = 'Mozilla';
+response_content_is [GET => '/'], 
+    "main\nis_mobile_device: 0\n\n", 
+    "main layout for non-mobile agents";
+
+$ENV{HTTP_USER_AGENT} = 'Opera';
+response_content_is [GET => '/'], 
+    "main\nis_mobile_device: 0\n\n", 
+    "main layout for non-mobile agents";
+
+
+# no default layout
+set layout => undef;
 
 $ENV{HTTP_USER_AGENT} = 'Android';
 response_content_is [GET => '/'],

@@ -28,8 +28,10 @@ before sub {
 };
 
 after sub {
-    my $orig_layout = vars->{'orig_layout'};
-    setting layout => $orig_layout;
+    my $settings = plugin_setting || {};
+    if ( $settings->{mobile_layout} && is_mobile_device() ) {
+        setting layout => delete vars->{orig_layout};
+    }
 };
 
 before_template sub {

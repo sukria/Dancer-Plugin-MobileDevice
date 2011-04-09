@@ -44,7 +44,7 @@ response_content_is [GET => '/'],
 
 # this is a bit dirty
 my $settings = Dancer::Config::settings();
-$settings->{plugins}{mobiledevice}{mobile_layout} = 'mobile';
+$settings->{plugins}{MobileDevice}{mobile_layout} = 'mobile';
 
 response_content_is [GET => '/'], 
     "mobile\nis_mobile_device: 1\n\n",

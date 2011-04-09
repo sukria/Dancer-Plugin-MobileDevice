@@ -9,7 +9,7 @@ use Dancer::Plugin;
 
 register 'is_mobile_device' => sub {
     return request->user_agent =~
-        /(iPhone|Android|BlackBerry|Mobile|Palm)/
+        /(?:iP(?:ad|od|hone)|Android|BlackBerry|Mobile|Palm)/
       ? 1 : 0;
 };
 

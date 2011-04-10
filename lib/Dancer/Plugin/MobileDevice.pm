@@ -2,19 +2,19 @@ package Dancer::Plugin::MobileDevice;
 
 use strict;
 use warnings;
-our $VERSION = '0.02';
-    
+our $VERSION = '0.03';
+
 use Dancer ':syntax';
 use Dancer::Plugin;
 
 register 'is_mobile_device' => sub {
     return request->user_agent =~
-        /(iPhone|Android|BlackBerry|Mobile|Palm)/
+        /(?:iP(?:ad|od|hone)|Android|BlackBerry|Mobile|Palm)/
       ? 1 : 0;
 };
 
 
-before sub {    
+before sub {
     # If we don't have a mobile layout declared, do nothing.
     my $settings = plugin_setting || {};
     if (my $mobile_layout = $settings->{mobile_layout}) {
@@ -28,8 +28,10 @@ before sub {
 };
 
 after sub {
-    my $orig_layout = vars->{'orig_layout'};
-    setting layout => $orig_layout;
+    my $settings = plugin_setting || {};
+    if ( $settings->{mobile_layout} && is_mobile_device() ) {
+        setting layout => delete vars->{orig_layout};
+    }
 };
 
 before_template sub {
@@ -41,6 +43,7 @@ register_plugin;
 
 1;
 __END__
+
 =head1 NAME
 
 Dancer::Plugin::MobileDevice - make a Dancer app mobile-aware
@@ -131,12 +134,12 @@ L<http://search.cpan.org/dist/Dancer-Plugin-MobileDevice/>
 
 =head1 ACKNOWLEDGEMENTS
 
-This plugin was initially written for an article of the Dancer advent calendar
-2010.
+This plugin was initially written for an article of the Dancer advent
+calendar 2010.
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2010 Alexis Sukrieh.
+Copyright 2010-2011 Alexis Sukrieh.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published

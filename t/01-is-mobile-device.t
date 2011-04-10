@@ -3,7 +3,7 @@ use warnings;
 
 use Test::More import => ['!pass'];
 
-my @mobile_devices = qw(iPhone Android BlackBerry PalmOS);
+my @mobile_devices = qw(iPhone iPod iPad Android BlackBerry PalmOS);
 
 plan tests => scalar(@mobile_devices) + 1;
 

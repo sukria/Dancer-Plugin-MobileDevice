@@ -82,7 +82,7 @@ the C<mobile_layout> setting for this plugin - for instance, add the following
 to your config file:
 
   plugins:
-    mobiledevice:
+    MobileDevice:
       mobile_layout: 'mobile'
 
 This means that, when C<template> is called to render a view, if the client is

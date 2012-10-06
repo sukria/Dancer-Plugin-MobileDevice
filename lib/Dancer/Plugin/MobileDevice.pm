@@ -13,10 +13,10 @@ register 'is_mobile_device' => sub {
       ? 1 : 0;
 };
 
-
-before sub {
+hook before => sub {
     # If we don't have a mobile layout declared, do nothing.
     my $settings = plugin_setting || {};
+
     if (my $mobile_layout = $settings->{mobile_layout}) {
         # OK, remember the original layout setting (so we can restore it
         # after the request), and override it with the specified mobile layout.
@@ -27,19 +27,19 @@ before sub {
     }
 };
 
-after sub {
+hook after => sub {
     my $settings = plugin_setting || {};
     if ( $settings->{mobile_layout} && is_mobile_device() ) {
         setting layout => delete vars->{orig_layout};
     }
 };
 
-before_template sub {
+hook before_template => sub {
     my $tokens = shift;
     $tokens->{'is_mobile_device'} = is_mobile_device();
 };
 
-register_plugin;
+register_plugin for_versions => [ 1, 2 ];
 
 1;
 __END__

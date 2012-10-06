@@ -20,12 +20,16 @@ plan tests => 2;
 use Dancer::Test;
 
 $ENV{HTTP_USER_AGENT} = 'Android';
-response_content_is [GET => '/'], 
+is dancer_response( GET => '/', undef, { 
+        HTTP_USER_AGENT => 'Android'
+    })->{content},
     "is_mobile_device: 1\n", 
     "token is_mobile_device is present and valid for Android";
 
 $ENV{HTTP_USER_AGENT} = 'Mozilla';
-response_content_is [GET => '/'], 
+is dancer_response( GET => '/', undef, { 
+        HTTP_USER_AGENT => 'Mozilla' 
+    })->{content},
     "is_mobile_device: 0\n", 
     "token is_mobile_device is present and valid for Mozilla";
 

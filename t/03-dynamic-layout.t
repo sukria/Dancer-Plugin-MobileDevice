@@ -20,51 +20,56 @@ plan tests => 7;
 
 use Dancer::Test;
 
+sub resp_for_agent($$$) {
+    my( $agent, $result, $comment ) = @_;
+
+    # for Dancer 1.x
+    $ENV{HTTP_USER_AGENT} = $agent;
+
+    # for Dancer 2.x
+    is dancer_response( GET => '/', undef,
+        { HTTP_USER_AGENT => $agent } )->{content} => $result, $comment;
+} 
+
 # expose a bug
 set layout => 'main';
 
-$ENV{HTTP_USER_AGENT} = 'Mozilla';
-response_content_is [GET => '/'], 
-    "main\nis_mobile_device: 0\n\n", 
-    "main layout for non-mobile agents";
-
-$ENV{HTTP_USER_AGENT} = 'Opera';
-response_content_is [GET => '/'], 
-    "main\nis_mobile_device: 0\n\n", 
-    "main layout for non-mobile agents";
-
+resp_for_agent $_, "main\nis_mobile_device: 0\n\n",
+        "main layout for non-mobile agent $_" for qw/ Mozilla Opera /;
 
 # no default layout
 set layout => undef;
 
-$ENV{HTTP_USER_AGENT} = 'Android';
-response_content_is [GET => '/'],
-    "is_mobile_device: 1\n",
+resp_for_agent 'Android' 
+    => "is_mobile_device: 1\n", 
     "No layout used unless asked to";
 
 # this is a bit dirty
-my $settings = Dancer::Config::settings();
-$settings->{plugins}{MobileDevice}{mobile_layout} = 'mobile';
+if ( $Dancer::VERSION < 2 ) {
+    my $settings = Dancer::Config::settings();
+    $settings->{plugins}{MobileDevice}{mobile_layout} = 'mobile';
+}
+else {
+    config->{plugins}{MobileDevice}{mobile_layout} = 'mobile';
+}
 
-response_content_is [GET => '/'], 
+resp_for_agent 'Android' =>
     "mobile\nis_mobile_device: 1\n\n",
     "mobile layout is set for mobile agents when desired";
 
 
-$ENV{HTTP_USER_AGENT} = 'Mozilla';
-response_content_is [GET => '/'], 
+resp_for_agent 'Mozilla',
     "is_mobile_device: 0\n", 
     "no layout for non-mobile agents";
 
 set layout => 'main';
 
-$ENV{HTTP_USER_AGENT} = 'Android';
-response_content_is [GET => '/'], 
+resp_for_agent 'Android' =>
     "mobile\nis_mobile_device: 1\n\n", 
     "mobile layout is set for mobile agents still";
 
-$ENV{HTTP_USER_AGENT} = 'Mozilla';
-response_content_is [GET => '/'], 
+resp_for_agent 'Mozilla' =>
     "main\nis_mobile_device: 0\n\n", 
     "main layout for non-mobile agents";
+
 

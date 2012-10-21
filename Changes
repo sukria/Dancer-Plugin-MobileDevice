@@ -1,8 +1,11 @@
 Revision history for Dancer-Plugin-MobileDevice
 
+{{$NEXT}}
+    * Make the plugin Dancer 2-ready.
+
 0.03    2011-04-10
-                [ Alberto Simões ]
-                * Fix access to setting on a test
+        [ Alberto Simões ]
+        * Fix access to setting on a test
 		* Add support to iPad/iPod
 
 0.02	2010-12-13, Alexis Sukrieh

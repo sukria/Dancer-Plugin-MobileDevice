@@ -8,9 +8,14 @@ use Dancer ':syntax';
 use Dancer::Plugin;
 
 register 'is_mobile_device' => sub {
-    return request->user_agent =~
-        /(?:iP(?:ad|od|hone)|Android|BlackBerry|Mobile|Palm)/
-      ? 1 : 0;
+    if (defined request->user_agent) {
+        return request->user_agent =~
+            /(?:iP(?:ad|od|hone)|Android|BlackBerry|Mobile|Palm)/
+            ? 1 : 0;
+    }
+    else {
+        return 0;
+    }
 };
 
 
